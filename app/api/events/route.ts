@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { createEventSchema, deleteEventSchema } from "./interface";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
+import { handleZodErrors } from "../utility";
+
 export async function GET() {
   const res = await prisma.event.findMany();
 
@@ -15,8 +17,17 @@ export async function GET() {
 export async function POST(request: Request) {
   const body = await request.json();
   const validation = createEventSchema.safeParse(body);
-  if (!validation.success)
-    return NextResponse.json(validation.error.errors, { status: 400 });
+  if (!validation.success) {
+    return NextResponse.json(
+      {
+        message: "Validation error",
+        errors: handleZodErrors(validation.error.errors),
+      },
+      {
+        status: 400,
+      }
+    );
+  }
 
   const res = await prisma.event.create({
     data: {
@@ -38,7 +49,15 @@ export async function DELETE(request: Request) {
   const body = await request.json();
   const validation = deleteEventSchema.safeParse(body);
   if (!validation.success)
-    return NextResponse.json(validation.error.errors, { status: 400 });
+    return NextResponse.json(
+      {
+        message: "Validation error",
+        errors: handleZodErrors(validation.error.errors),
+      },
+      {
+        status: 400,
+      }
+    );
 
   try {
     const res = await prisma.event.delete({
@@ -64,3 +83,7 @@ export async function DELETE(request: Request) {
     );
   }
 }
+
+// export async function PATCH() {
+//   return;
+// }
