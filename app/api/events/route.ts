@@ -1,7 +1,7 @@
 import prisma from "@/prisma/client";
-import { Event } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { createEventSchema } from "./interface";
+import { createEventSchema, deleteEventSchema } from "./interface";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export async function GET() {
   const res = await prisma.event.findMany();
@@ -28,5 +28,39 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json({ message: "Success!", data: res }, { status: 201 });
+  return NextResponse.json(
+    { message: "Success: added a new event!", data: res },
+    { status: 201 }
+  );
+}
+
+export async function DELETE(request: Request) {
+  const body = await request.json();
+  const validation = deleteEventSchema.safeParse(body);
+  if (!validation.success)
+    return NextResponse.json(validation.error.errors, { status: 400 });
+
+  try {
+    const res = await prisma.event.delete({
+      where: {
+        id: validation.data.id,
+      },
+    });
+
+    return NextResponse.json(res);
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      return NextResponse.json(
+        { message: "There is no event with the specified ID number." },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json(
+      {
+        message:
+          "An unexpected error occurred on the server. Please contact the developer.",
+      },
+      { status: 500 }
+    );
+  }
 }

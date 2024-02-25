@@ -17,3 +17,7 @@ export const createEventSchema = z.object({
   location: z.string().min(1).max(255),
   description: z.string().optional(),
 });
+
+export const deleteEventSchema = z.object({
+  id: z.number(),
+});
