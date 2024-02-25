@@ -1,6 +1,10 @@
 import prisma from "@/prisma/client";
 import { NextResponse } from "next/server";
-import { createEventSchema, deleteEventSchema } from "./interface";
+import {
+  createEventSchema,
+  deleteEventSchema,
+  updateEventSchema,
+} from "./interface";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 import { handleZodErrors } from "../utility";
@@ -66,7 +70,10 @@ export async function DELETE(request: Request) {
       },
     });
 
-    return NextResponse.json(res);
+    return NextResponse.json({
+      message: "Successfully deleted the event",
+      deleted_event: res,
+    });
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       return NextResponse.json(
@@ -84,6 +91,45 @@ export async function DELETE(request: Request) {
   }
 }
 
-// export async function PATCH() {
-//   return;
-// }
+export async function PATCH(request: Request) {
+  const body = await request.json();
+  const validation = updateEventSchema.safeParse(body);
+  if (!validation.success)
+    return NextResponse.json(
+      {
+        message: "Validation error",
+        errors: handleZodErrors(validation.error.errors),
+      },
+      {
+        status: 400,
+      }
+    );
+
+  try {
+    const res = await prisma.event.update({
+      where: {
+        id: validation.data.id,
+      },
+      data: validation.data.update,
+    });
+
+    return NextResponse.json({
+      message: "Successfully updated the event",
+      updated_event: res,
+    });
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      return NextResponse.json(
+        { message: "There is no event with the specified ID number." },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json(
+      {
+        message:
+          "An unexpected error occurred on the server. Please contact the developer.",
+      },
+      { status: 500 }
+    );
+  }
+}
