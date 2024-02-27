@@ -67,11 +67,11 @@ model Event {
 }
 
 model Committee {
-  id               Int                        @id @default(sequence())
-  name             String                     @db.Char(255)
+  id               Int                         @id @default(sequence())
+  name             String                      @db.Char(255)
   committeeType    COMMITTEE_TYPE
-  pengurusIntiType PENGURUS_INTI_TYPE
-  bphType          BADAN_PENGURUS_HARIAN_TYPE
+  pengurusIntiType PENGURUS_INTI_TYPE?
+  bphType          BADAN_PENGURUS_HARIAN_TYPE?
   group            Group? // Only has group if bphType is MENTOR
 }
 

@@ -1,0 +1,9 @@
+-- AlterSequence
+ALTER SEQUENCE "Committee_id_seq" MAXVALUE 9223372036854775807;
+
+-- AlterSequence
+ALTER SEQUENCE "Group_id_seq" MAXVALUE 9223372036854775807;
+
+-- AlterTable
+ALTER TABLE "Committee" ALTER COLUMN "pengurusIntiType" DROP NOT NULL;
+ALTER TABLE "Committee" ALTER COLUMN "bphType" DROP NOT NULL;
