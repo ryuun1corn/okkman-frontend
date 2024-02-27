@@ -18,10 +18,6 @@ export const createEventSchema = z.object({
   description: z.string().optional(),
 });
 
-export const deleteEventSchema = z.object({
-  id: z.number(),
-});
-
 export const updateEventSchema = z.object({
   id: z.number(),
   update: z

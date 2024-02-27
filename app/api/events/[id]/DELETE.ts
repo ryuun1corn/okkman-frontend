@@ -1,27 +1,18 @@
 import prisma from "@/prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
-import { handleZodErrors } from "../utility";
-import { deleteEventSchema } from "./schema";
 
-export async function deleteEvent(request: NextRequest) {
-  const body = await request.json();
-  const validation = deleteEventSchema.safeParse(body);
-  if (!validation.success)
+export async function deleteEvent(committeeId: string) {
+  if (isNaN(Number(committeeId))) {
     return NextResponse.json(
-      {
-        message: "Validation error",
-        errors: handleZodErrors(validation.error.errors),
-      },
-      {
-        status: 400,
-      }
+      { message: "Make sure you have inputted the correct ID" },
+      { status: 400 }
     );
-
+  }
   try {
     const res = await prisma.event.delete({
       where: {
-        id: validation.data.id,
+        id: parseInt(committeeId),
       },
     });
 
