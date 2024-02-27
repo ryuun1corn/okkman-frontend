@@ -7,7 +7,8 @@ import { returnServerError } from "../utility";
 export async function GET() {
   try {
     return await getAllCommittee();
-  } catch {
+  } catch (error) {
+    console.log(error);
     returnServerError();
   }
 }
@@ -15,7 +16,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     return await hireNewCommittee(request);
-  } catch {
+  } catch (error) {
+    console.log(error);
     returnServerError();
   }
 }

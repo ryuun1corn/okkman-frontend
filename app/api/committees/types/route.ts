@@ -42,7 +42,8 @@ export const bphTypes: BADAN_PENGURUS_HARIAN_TYPE[] = [
 export async function GET() {
   try {
     return getCommitteeTypes(bphTypes, pengurusIntiTypes);
-  } catch {
+  } catch (error) {
+    console.log(error);
     return returnServerError();
   }
 }

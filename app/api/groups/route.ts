@@ -6,7 +6,8 @@ import { getGroups } from "./GET";
 export async function GET() {
   try {
     return await getGroups();
-  } catch {
+  } catch (error) {
+    console.log(error);
     return returnServerError();
   }
 }
@@ -14,7 +15,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     return await createGroup(request);
-  } catch {
+  } catch (error) {
+    console.log(error);
     return returnServerError();
   }
 }

@@ -9,7 +9,8 @@ export async function DELETE(
 ) {
   try {
     return await deleteEvent(params.id);
-  } catch {
+  } catch (error) {
+    console.log(error);
     return returnServerError();
   }
 }
@@ -20,7 +21,8 @@ export async function PATCH(
 ) {
   try {
     return await updateEvent(request, params.id);
-  } catch {
+  } catch (error) {
+    console.log(error);
     return returnServerError();
   }
 }

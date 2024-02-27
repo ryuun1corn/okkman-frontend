@@ -6,7 +6,8 @@ import { returnServerError } from "../utility";
 export async function GET() {
   try {
     return await getAllEvents();
-  } catch {
+  } catch (error) {
+    console.log(error);
     return returnServerError();
   }
 }
@@ -14,7 +15,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     return await createEvent(request);
-  } catch {
+  } catch (error) {
+    console.log(error);
     return returnServerError();
   }
 }
