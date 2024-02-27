@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 
 import { addCommitteeSchema } from "./interface";
 import { handleZodErrors } from "../utility";
+import { bphTypes } from "./types/route";
+import { BADAN_PENGURUS_HARIAN_TYPE, PENGURUS_INTI_TYPE } from "@prisma/client";
 
 export async function GET() {
   const res = await prisma.committee.findMany();
@@ -28,18 +30,29 @@ export async function POST(request: Request) {
     );
   }
 
-  const res = await prisma.event.create({
+  const res = await prisma.committee.create({
     data: {
       name: validation.data.name,
-      start_date: new Date(validation.data.start_date),
-      end_date: new Date(validation.data.end_date),
-      location: validation.data.location,
-      description: validation.data.description,
+      committeeType: bphTypes.includes(
+        validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
+      )
+        ? "BADAN_PENGURUS_HARIAN"
+        : "PENGURUS_INTI",
+      bphType: bphTypes.includes(
+        validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
+      )
+        ? (validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE)
+        : null,
+      pengurusIntiType: bphTypes.includes(
+        validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
+      )
+        ? null
+        : (validation.data.committee_subtype as PENGURUS_INTI_TYPE),
     },
   });
 
   return NextResponse.json(
-    { message: "Success: added a new event!", data: res },
+    { message: "Success: hired a new staff" },
     { status: 201 }
   );
 }
