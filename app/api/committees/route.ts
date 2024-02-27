@@ -1,7 +1,7 @@
 import prisma from "@/prisma/client";
 import { NextResponse } from "next/server";
 
-import { addCommitteeSchema } from "./interface";
+import { addCommitteeSchema } from "./schema";
 import { handleZodErrors } from "../utility";
 import { bphTypes } from "./types/route";
 import { BADAN_PENGURUS_HARIAN_TYPE, PENGURUS_INTI_TYPE } from "@prisma/client";

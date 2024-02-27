@@ -4,7 +4,7 @@ import {
   createEventSchema,
   deleteEventSchema,
   updateEventSchema,
-} from "./interface";
+} from "./schema";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 import { handleZodErrors } from "../utility";
