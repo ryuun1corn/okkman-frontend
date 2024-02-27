@@ -1,10 +1,10 @@
 import prisma from "@/prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
-import { handleZodErrors } from "../utility";
-import { updateEventSchema } from "./schema";
+import { handleZodErrors } from "../../utility";
+import { updateEventSchema } from "../schema";
 
-export async function updateEvent(request: NextRequest) {
+export async function updateEvent(request: NextRequest, committeeId: string) {
   const body = await request.json();
   const validation = updateEventSchema.safeParse(body);
   if (!validation.success)
@@ -21,9 +21,9 @@ export async function updateEvent(request: NextRequest) {
   try {
     const res = await prisma.event.update({
       where: {
-        id: validation.data.id,
+        id: parseInt(committeeId),
       },
-      data: validation.data.update,
+      data: validation.data,
     });
 
     return NextResponse.json({

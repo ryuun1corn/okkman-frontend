@@ -18,42 +18,39 @@ export const createEventSchema = z.object({
   description: z.string().optional(),
 });
 
-export const updateEventSchema = z.object({
-  id: z.number(),
-  update: z
-    .object({
-      name: z.string().min(1).max(255).optional(),
-      start_date: z
-        .string()
-        .refine((data) => !isNaN(Date.parse(data)), {
-          message: "Invalid date format",
-        })
-        .transform((data) => new Date(data))
-        .optional(),
-      end_date: z
-        .string()
-        .refine((data) => !isNaN(Date.parse(data)), {
-          message: "Invalid date format",
-        })
-        .transform((data) => new Date(data))
-        .optional(),
-      location: z.string().min(1).max(255).optional(),
-      description: z.string().optional(),
-    })
-    .refine(
-      (data) => {
-        const hasProp = Object.keys(data).some((key) =>
-          [
-            "name",
-            "start_date",
-            "end_date",
-            "location",
-            "description",
-          ].includes(key)
-        );
+export const updateEventSchema = z
+  .object({
+    name: z.string().min(1).max(255).optional(),
+    start_date: z
+      .string()
+      .refine((data) => !isNaN(Date.parse(data)), {
+        message: "Invalid date format",
+      })
+      .transform((data) => new Date(data))
+      .optional(),
+    end_date: z
+      .string()
+      .refine((data) => !isNaN(Date.parse(data)), {
+        message: "Invalid date format",
+      })
+      .transform((data) => new Date(data))
+      .optional(),
+    location: z.string().min(1).max(255).optional(),
+    description: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      const hasProp = Object.keys(data).some((key) =>
+        ["name", "start_date", "end_date", "location", "description"].includes(
+          key
+        )
+      );
 
-        return hasProp;
-      },
-      { message: "Needs at least one property to be updated" }
-    ),
-});
+      return hasProp;
+    },
+    {
+      message:
+        "At least 1 of (name, start_date, end_date, or location)) has to be updated.",
+      path: ["update_data"],
+    }
+  );
