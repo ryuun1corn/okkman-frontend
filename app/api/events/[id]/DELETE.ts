@@ -28,12 +28,5 @@ export async function deleteEvent(committeeId: string) {
         { status: 404 }
       );
     }
-    return NextResponse.json(
-      {
-        message:
-          "An unexpected error occurred on the server. Please contact the developer.",
-      },
-      { status: 500 }
-    );
   }
 }
