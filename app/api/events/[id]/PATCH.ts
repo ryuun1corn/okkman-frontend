@@ -5,6 +5,13 @@ import { handleZodErrors } from "../../utility";
 import { updateEventSchema } from "../schema";
 
 export async function updateEvent(request: NextRequest, committeeId: string) {
+  if (isNaN(Number(committeeId))) {
+    return NextResponse.json(
+      { message: "Make sure you have inputted the correct ID" },
+      { status: 400 }
+    );
+  }
+
   const body = await request.json();
   const validation = updateEventSchema.safeParse(body);
   if (!validation.success)

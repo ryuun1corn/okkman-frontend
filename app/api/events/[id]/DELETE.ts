@@ -9,6 +9,7 @@ export async function deleteEvent(committeeId: string) {
       { status: 400 }
     );
   }
+
   try {
     const res = await prisma.event.delete({
       where: {
