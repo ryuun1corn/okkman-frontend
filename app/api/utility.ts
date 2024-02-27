@@ -12,7 +12,10 @@ export function handleZodErrors(errors: ZodIssue[]): string[] {
 
 export function returnServerError() {
   return NextResponse.json(
-    { message: "Something went wrong, please contact the developer" },
+    {
+      message:
+        "Something went wrong. Please contact the developer or check your request data",
+    },
     { status: 500 }
   );
 }

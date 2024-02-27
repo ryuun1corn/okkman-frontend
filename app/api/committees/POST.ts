@@ -42,7 +42,7 @@ export async function hireNewCommittee(request: NextRequest) {
   });
 
   return NextResponse.json(
-    { message: "Success: hired a new staff" },
+    { message: "Success: hired a new staff", data: res },
     { status: 201 }
   );
 }
