@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
 import { PENGURUS_INTI_TYPE, BADAN_PENGURUS_HARIAN_TYPE } from "@prisma/client";
+import { getCommitteeTypes } from "./GET";
+import { returnServerError } from "../../utility";
 
 export const pengurusIntiTypes: PENGURUS_INTI_TYPE[] = [
   "PROJECT_OFFICER",
@@ -39,11 +40,9 @@ export const bphTypes: BADAN_PENGURUS_HARIAN_TYPE[] = [
 ] as const;
 
 export async function GET() {
-  return NextResponse.json({
-    message: "Successfully get all committee type",
-    types: {
-      pengurus_inti: pengurusIntiTypes,
-      bph: bphTypes,
-    },
-  });
+  try {
+    return getCommitteeTypes(bphTypes, pengurusIntiTypes);
+  } catch {
+    return returnServerError();
+  }
 }

@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { ZodIssue } from "zod";
 
 export function handleZodErrors(errors: ZodIssue[]): string[] {
@@ -7,4 +8,11 @@ export function handleZodErrors(errors: ZodIssue[]): string[] {
   });
 
   return allErrors;
+}
+
+export function returnServerError() {
+  return NextResponse.json(
+    { message: "Something went wrong, please contact the developer" },
+    { status: 500 }
+  );
 }

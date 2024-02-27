@@ -1,58 +1,21 @@
-import prisma from "@/prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-import { addCommitteeSchema } from "./schema";
-import { handleZodErrors } from "../utility";
-import { bphTypes } from "./types/route";
-import { BADAN_PENGURUS_HARIAN_TYPE, PENGURUS_INTI_TYPE } from "@prisma/client";
+import { getAllCommittee } from "./GET";
+import { hireNewCommittee } from "./POST";
+import { returnServerError } from "../utility";
 
 export async function GET() {
-  const res = await prisma.committee.findMany();
-
-  return NextResponse.json({
-    message: "Successfully get all committees",
-    events: res,
-  });
+  try {
+    return await getAllCommittee();
+  } catch {
+    returnServerError();
+  }
 }
 
-export async function POST(request: Request) {
-  const body = await request.json();
-  const validation = addCommitteeSchema.safeParse(body);
-  if (!validation.success) {
-    return NextResponse.json(
-      {
-        message: "Validation error",
-        errors: handleZodErrors(validation.error.errors),
-      },
-      {
-        status: 400,
-      }
-    );
+export async function POST(request: NextRequest) {
+  try {
+    return await hireNewCommittee(request);
+  } catch {
+    returnServerError();
   }
-
-  const res = await prisma.committee.create({
-    data: {
-      name: validation.data.name,
-      committeeType: bphTypes.includes(
-        validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
-      )
-        ? "BADAN_PENGURUS_HARIAN"
-        : "PENGURUS_INTI",
-      bphType: bphTypes.includes(
-        validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
-      )
-        ? (validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE)
-        : null,
-      pengurusIntiType: bphTypes.includes(
-        validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
-      )
-        ? null
-        : (validation.data.committee_subtype as PENGURUS_INTI_TYPE),
-    },
-  });
-
-  return NextResponse.json(
-    { message: "Success: hired a new staff" },
-    { status: 201 }
-  );
 }
