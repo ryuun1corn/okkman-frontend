@@ -2,9 +2,9 @@ import prisma from "@/prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextResponse } from "next/server";
 
-export async function deleteEvent(committeeId: string) {
+export async function deleteEvent(eventId: string) {
   // Check if 'id' from the url is a valid number or not
-  if (isNaN(Number(committeeId))) {
+  if (isNaN(Number(eventId))) {
     return NextResponse.json(
       { error: "Make sure you have inputted the correct ID." },
       { status: 400 }
@@ -14,7 +14,7 @@ export async function deleteEvent(committeeId: string) {
   try {
     await prisma.event.delete({
       where: {
-        id: parseInt(committeeId),
+        id: parseInt(eventId),
       },
     });
 
