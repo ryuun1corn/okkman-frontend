@@ -10,7 +10,8 @@ export function handleZodErrors(errors: ZodIssue[]): string[] {
   return allErrors;
 }
 
-export function returnServerError() {
+export function returnServerError(error: unknown) {
+  console.log(error);
   return NextResponse.json(
     {
       message:

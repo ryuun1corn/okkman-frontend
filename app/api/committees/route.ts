@@ -8,8 +8,7 @@ export async function GET() {
   try {
     return await getAllCommittee();
   } catch (error) {
-    console.log(error);
-    returnServerError();
+    return returnServerError(error);
   }
 }
 
@@ -17,7 +16,6 @@ export async function POST(request: NextRequest) {
   try {
     return await hireNewCommittee(request);
   } catch (error) {
-    console.log(error);
-    returnServerError();
+    return returnServerError(error);
   }
 }

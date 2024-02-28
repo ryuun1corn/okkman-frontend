@@ -64,7 +64,6 @@ export async function changeMentor(request: NextRequest, groupId: string) {
       updated_event: res,
     });
   } catch (error) {
-    console.log(error);
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === "P2025")
         return NextResponse.json(

@@ -43,7 +43,6 @@ export async function GET() {
   try {
     return getCommitteeTypes(bphTypes, pengurusIntiTypes);
   } catch (error) {
-    console.log(error);
-    return returnServerError();
+    return returnServerError(error);
   }
 }

@@ -10,8 +10,7 @@ export async function PATCH(
   try {
     return await updateGroupMentor(request, params.id);
   } catch (error) {
-    console.log(error);
-    return returnServerError();
+    return returnServerError(error);
   }
 }
 
@@ -22,7 +21,6 @@ export async function PUT(
   try {
     return await changeMentor(request, params.id);
   } catch (error) {
-    console.log(error);
-    return returnServerError();
+    return returnServerError(error);
   }
 }

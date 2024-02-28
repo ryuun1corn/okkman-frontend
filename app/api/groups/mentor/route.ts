@@ -6,7 +6,6 @@ export async function POST(request: NextRequest) {
   try {
     return await createMentorAndGroup(request);
   } catch (error) {
-    console.log(error);
-    return returnServerError();
+    return returnServerError(error);
   }
 }

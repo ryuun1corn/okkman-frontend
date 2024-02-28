@@ -7,8 +7,7 @@ export async function GET() {
   try {
     return await getGroups();
   } catch (error) {
-    console.log(error);
-    return returnServerError();
+    return returnServerError(error);
   }
 }
 
@@ -16,7 +15,6 @@ export async function POST(request: NextRequest) {
   try {
     return await createGroup(request);
   } catch (error) {
-    console.log(error);
-    return returnServerError();
+    return returnServerError(error);
   }
 }
