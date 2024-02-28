@@ -76,8 +76,8 @@ model Committee {
 }
 
 model Group {
-  id          Int       @id @default(sequence())
-  number      Int       @unique
-  committee   Committee @relation(fields: [committeeId], references: [id])
-  committeeId Int       @unique
+  id       Int       @id @default(sequence())
+  number   Int       @unique
+  mentor   Committee @relation(fields: [mentorId], references: [id])
+  mentorId Int       @unique
 }

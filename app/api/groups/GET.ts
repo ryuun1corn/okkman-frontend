@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function getGroups() {
   const res = await prisma.group.findMany({
     include: {
-      committee: true,
+      mentor: true,
     },
   });
 

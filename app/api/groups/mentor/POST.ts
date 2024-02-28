@@ -23,7 +23,7 @@ export async function createMentorAndGroup(request: NextRequest) {
     const res = await prisma.group.create({
       data: {
         number: validation.data.number,
-        committee: {
+        mentor: {
           create: {
             name: validation.data.mentor_name,
             committeeType: "BADAN_PENGURUS_HARIAN",

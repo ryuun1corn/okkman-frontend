@@ -23,7 +23,7 @@ export async function createGroup(request: NextRequest) {
     const res = await prisma.group.create({
       data: {
         number: validation.data.number,
-        committee: {
+        mentor: {
           connect: {
             id: validation.data.mentor_id,
             bphType: "MENTOR",
