@@ -45,7 +45,7 @@ export async function updateGroup(request: NextRequest, groupId: string) {
       error.code === "P2025"
     ) {
       return NextResponse.json(
-        { error: "There is no event with the specified ID number." },
+        { error: "There is no group with the specified ID number." },
         { status: 404 }
       );
     }
