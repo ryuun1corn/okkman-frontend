@@ -7,7 +7,7 @@ import { changeMentorSchema } from "./schema";
 export async function changeMentor(request: NextRequest, groupId: string) {
   if (isNaN(Number(groupId))) {
     return NextResponse.json(
-      { message: "Make sure you have inputted the correct ID" },
+      { error: "Make sure you have inputted the correct ID." },
       { status: 400 }
     );
   }
@@ -17,7 +17,7 @@ export async function changeMentor(request: NextRequest, groupId: string) {
   if (!validation.success)
     return NextResponse.json(
       {
-        message: "Validation error",
+        error: "There was something wrong with the data sent.",
         errors: handleZodErrors(validation.error.errors),
       },
       {
@@ -43,49 +43,33 @@ export async function changeMentor(request: NextRequest, groupId: string) {
       },
     });
 
-    // const res = await prisma.committee.update({
-    //   data: {
-    //     group: {
-    //       connect: {
-    //         id: parseInt(groupId),
-    //       },
-    //     },
-    //   },
-    //   where: {
-    //     id: validation.data.mentor_id,
-    //   },
-    //   include: {
-    //     group: true,
-    //   },
-    // });
-
     return NextResponse.json({
-      message: "Successfully changed the mentor of the group",
-      updated_event: res,
+      message: "Successfully changed the mentor of the group.",
+      data: res,
     });
   } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2025")
-        return NextResponse.json(
-          { message: "Either the group or the mentor was not found." },
-          { status: 404 }
-        );
-      if (error.code === "P2014")
-        return NextResponse.json(
-          {
-            message:
-              "The mentor that was specified is already a mentor of another group.",
-          },
-          { status: 409 }
-        );
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { error: "Either the group or the mentor was not found." },
+        { status: 404 }
+      );
+    }
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2014"
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "The mentor that was specified was already a mentor of another group.",
+        },
+        { status: 409 }
+      );
     }
 
-    return NextResponse.json(
-      {
-        message:
-          "An unexpected error occurred on the server. Please contact the developer.",
-      },
-      { status: 500 }
-    );
+    throw error;
   }
 }

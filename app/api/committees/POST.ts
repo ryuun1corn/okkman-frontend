@@ -11,7 +11,7 @@ export async function hireNewCommittee(request: NextRequest) {
   if (!validation.success) {
     return NextResponse.json(
       {
-        message: "Validation error",
+        error: "There was something wrong with the data sent.",
         errors: handleZodErrors(validation.error.errors),
       },
       {
@@ -42,7 +42,7 @@ export async function hireNewCommittee(request: NextRequest) {
   });
 
   return NextResponse.json(
-    { message: "Success: hired a new staff", data: res },
+    { message: "Successfully hired a new committee.", data: res },
     { status: 201 }
   );
 }

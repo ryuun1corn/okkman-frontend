@@ -5,28 +5,32 @@ import { NextResponse } from "next/server";
 export async function deleteGroup(groupId: string) {
   if (isNaN(Number(groupId))) {
     return NextResponse.json(
-      { message: "Make sure you have inputted the correct ID" },
+      { error: "Make sure you have inputted the correct ID." },
       { status: 400 }
     );
   }
 
   try {
-    const res = await prisma.group.delete({
+    await prisma.group.delete({
       where: {
         id: parseInt(groupId),
       },
     });
 
     return NextResponse.json({
-      message: "Successfully deleted the group",
-      deleted_event: res,
+      message: "Successfully deleted the group.",
     });
   } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
       return NextResponse.json(
-        { message: "There is no group with the specified ID number." },
+        { error: "There is no group with the specified ID number." },
         { status: 404 }
       );
     }
+
+    throw error;
   }
 }

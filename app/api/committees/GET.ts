@@ -9,7 +9,7 @@ export async function getAllCommittee() {
   });
 
   return NextResponse.json({
-    message: "Successfully get all committees",
-    events: res,
+    message: "Successfully get all committees.",
+    data: res,
   });
 }

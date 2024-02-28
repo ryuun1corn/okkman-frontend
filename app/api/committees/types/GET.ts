@@ -6,7 +6,7 @@ export async function getCommitteeTypes(
   pengurusIntiTypes: PENGURUS_INTI_TYPE[]
 ) {
   return NextResponse.json({
-    message: "Successfully get all committee type",
+    message: "Successfully get all committee types.",
     data: {
       pengurus_inti: pengurusIntiTypes,
       bph: bphTypes,

@@ -10,7 +10,7 @@ export async function createGroup(request: NextRequest) {
   if (!validation.success) {
     return NextResponse.json(
       {
-        message: "Validation error",
+        error: "There was something wrong with the data sent.",
         errors: handleZodErrors(validation.error.errors),
       },
       {
@@ -33,7 +33,7 @@ export async function createGroup(request: NextRequest) {
     });
 
     return NextResponse.json(
-      { message: "Success: added a new group!", data: res },
+      { message: "Successfully added a new group.", data: res },
       { status: 201 }
     );
   } catch (error) {
@@ -43,10 +43,10 @@ export async function createGroup(request: NextRequest) {
     ) {
       return NextResponse.json(
         {
-          message:
+          error:
             "The mentor with such an ID is already connected to another group.",
         },
-        { status: 404 }
+        { status: 409 }
       );
     }
     if (
@@ -54,7 +54,7 @@ export async function createGroup(request: NextRequest) {
       error.code === "P2025"
     ) {
       return NextResponse.json(
-        { message: "There is no mentor with the specified ID number." },
+        { error: "There is no mentor with the specified ID number." },
         { status: 404 }
       );
     }
@@ -64,9 +64,9 @@ export async function createGroup(request: NextRequest) {
     ) {
       return NextResponse.json(
         {
-          message: `There already exists a group with the number ${validation.data.number}.`,
+          error: "There already exists a group with the same group number.",
         },
-        { status: 404 }
+        { status: 409 }
       );
     }
     throw error;

@@ -9,7 +9,7 @@ export async function getGroups() {
   });
 
   return NextResponse.json({
-    message: "Successfully get all groups",
+    message: "Successfully get all groups.",
     data: res,
   });
 }

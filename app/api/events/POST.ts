@@ -9,7 +9,7 @@ export async function createEvent(request: NextRequest) {
   if (!validation.success) {
     return NextResponse.json(
       {
-        message: "Validation error",
+        error: "There was something wrong with the data sent.",
         errors: handleZodErrors(validation.error.errors),
       },
       {
@@ -29,7 +29,7 @@ export async function createEvent(request: NextRequest) {
   });
 
   return NextResponse.json(
-    { message: "Success: added a new event!", data: res },
+    { message: "Successfully added a new event.", data: res },
     { status: 201 }
   );
 }

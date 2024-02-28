@@ -7,7 +7,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 export async function updateGroup(request: NextRequest, groupId: string) {
   if (isNaN(Number(groupId))) {
     return NextResponse.json(
-      { message: "Make sure you have inputted the correct ID" },
+      { error: "Make sure you have inputted the correct ID." },
       { status: 400 }
     );
   }
@@ -17,7 +17,7 @@ export async function updateGroup(request: NextRequest, groupId: string) {
   if (!validation.success)
     return NextResponse.json(
       {
-        message: "Validation error",
+        error: "There was something wrong with the data sent.",
         errors: handleZodErrors(validation.error.errors),
       },
       {
@@ -36,23 +36,20 @@ export async function updateGroup(request: NextRequest, groupId: string) {
     });
 
     return NextResponse.json({
-      message: "Successfully updated the group",
-      updated_event: res,
+      message: "Successfully updated the group.",
+      data: res,
     });
   } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
       return NextResponse.json(
-        { message: "There is no event with the specified ID number." },
+        { error: "There is no event with the specified ID number." },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(
-      {
-        message:
-          "An unexpected error occurred on the server. Please contact the developer.",
-      },
-      { status: 500 }
-    );
+    throw error;
   }
 }
