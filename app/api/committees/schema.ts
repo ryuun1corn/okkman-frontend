@@ -1,10 +1,6 @@
 import { z } from "zod";
 import { pengurusIntiTypes, bphTypes } from "./types/route";
-import {
-  BADAN_PENGURUS_HARIAN_TYPE,
-  COMMITTEE_TYPE,
-  PENGURUS_INTI_TYPE,
-} from "@prisma/client";
+import { BADAN_PENGURUS_HARIAN_TYPE, PENGURUS_INTI_TYPE } from "@prisma/client";
 
 export const addCommitteeSchema = z.object({
   name: z.string().min(1).max(255),
@@ -29,5 +25,4 @@ export const addCommitteeSchema = z.object({
 
       return data as BADAN_PENGURUS_HARIAN_TYPE;
     }),
-  groupId: z.number().optional(),
 });

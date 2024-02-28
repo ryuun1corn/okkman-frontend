@@ -5,5 +5,5 @@ export const updateGroupMentorSchema = z.object({
 });
 
 export const changeMentorSchema = z.object({
-  mentor_id: z.number(),
+  mentor_id: z.number().positive().int(),
 });
