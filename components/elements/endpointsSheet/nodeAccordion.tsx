@@ -14,38 +14,36 @@ function renderNodes(nodeObjects: treeStructureInterface[]) {
     <Accordion type="multiple" className="w-full">
       {nodeObjects.map((node) => {
         return (
-          <>
-            <AccordionItem value={node.name}>
-              <AccordionTrigger>{node.name}</AccordionTrigger>
-              <AccordionContent>
-                <ul className="pl-5 space-y-2 bg-slate-300 bg-opacity-35 p-3">
-                  <li>
-                    {node.dropdowns !== undefined
-                      ? renderNodes(node.dropdowns)
-                      : null}
-                  </li>
-                  {node.actions.map((action) => {
-                    return (
-                      <li key={action}>
-                        <SheetClose asChild>
-                          <Button type="submit" className="w-full">
-                            {action}
-                          </Button>
-                        </SheetClose>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-          </>
+          <AccordionItem value={node.name} key={node.name}>
+            <AccordionTrigger>{node.name}</AccordionTrigger>
+            <AccordionContent>
+              <ul className="pl-5 space-y-2 bg-slate-300 bg-opacity-35 p-3">
+                <li>
+                  {node.dropdowns !== undefined
+                    ? renderNodes(node.dropdowns)
+                    : null}
+                </li>
+                {node.actions.map((action) => {
+                  return (
+                    <li key={action}>
+                      <SheetClose asChild>
+                        <Button type="submit" className="w-full">
+                          {action}
+                        </Button>
+                      </SheetClose>
+                    </li>
+                  );
+                })}
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
         );
       })}
     </Accordion>
   );
 }
 
-export function AccordionDemo() {
+export function EndpointsAccordion() {
   const mainNodes: treeStructureInterface[] = [
     {
       name: "/api/events",

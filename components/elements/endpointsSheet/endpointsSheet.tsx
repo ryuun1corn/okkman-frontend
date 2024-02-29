@@ -11,7 +11,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AccordionDemo } from "./nodeAccordion";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { EndpointsAccordion } from "./nodeAccordion";
 
 export function EndpointsSheet() {
   return (
@@ -27,7 +28,11 @@ export function EndpointsSheet() {
             &apos;Change&apos; when you&apos;re done.
           </SheetDescription>
         </SheetHeader>
-        <AccordionDemo />
+        <ScrollArea className="h-[80%] w-full rounded-md border p-4 bg-slate-300 bg-opacity-35 my-4">
+          <div>
+            <EndpointsAccordion />
+          </div>
+        </ScrollArea>
         <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">Close</Button>
