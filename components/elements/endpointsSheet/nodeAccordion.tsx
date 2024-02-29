@@ -9,8 +9,15 @@ import { Button } from "@/components/ui/button";
 import endpointData from "@/components/data/endpoints";
 
 import { treeStructureInterface } from "../../data/interface";
+import { Dispatch, SetStateAction } from "react";
 
-function renderNodes(nodeObjects: treeStructureInterface[]) {
+function renderNodes(
+  nodeObjects: treeStructureInterface[],
+  setEndpoint: Dispatch<SetStateAction<string>>,
+  setMethod: Dispatch<
+    SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
+  >
+) {
   return (
     <Accordion
       type="multiple"
@@ -24,15 +31,22 @@ function renderNodes(nodeObjects: treeStructureInterface[]) {
               <ul className=" divide-y-[1px] divide-slate-400">
                 <li className="bg-slate-400 bg-opacity-15 rounded-t-lg">
                   {node.dropdowns !== undefined
-                    ? renderNodes(node.dropdowns)
+                    ? renderNodes(node.dropdowns, setEndpoint, setMethod)
                     : null}
                 </li>
-                {node.actions.map((action) => {
+                {node.actions.map((action, index) => {
                   return (
-                    <li key={action} className="p-2">
+                    <li key={index} className="p-2">
                       <SheetClose asChild>
-                        <Button type="submit" className="w-full">
-                          {action}
+                        <Button
+                          type="submit"
+                          className="w-full"
+                          onClick={() => {
+                            setEndpoint(node.name);
+                            setMethod(action.method);
+                          }}
+                        >
+                          {action.name}
                         </Button>
                       </SheetClose>
                     </li>
@@ -47,6 +61,14 @@ function renderNodes(nodeObjects: treeStructureInterface[]) {
   );
 }
 
-export function EndpointsAccordion() {
-  return renderNodes(endpointData);
+export function EndpointsAccordion({
+  setEndpoint,
+  setMethod,
+}: {
+  setEndpoint: Dispatch<SetStateAction<string>>;
+  setMethod: Dispatch<
+    SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
+  >;
+}) {
+  return renderNodes(endpointData, setEndpoint, setMethod);
 }

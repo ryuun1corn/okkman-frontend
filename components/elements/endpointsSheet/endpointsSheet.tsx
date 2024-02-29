@@ -13,12 +13,21 @@ import {
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { EndpointsAccordion } from "./nodeAccordion";
+import { Dispatch, SetStateAction } from "react";
 
-export function EndpointsSheet() {
+export function EndpointsSheet({
+  setEndpoint,
+  setMethod,
+}: {
+  setEndpoint: Dispatch<SetStateAction<string>>;
+  setMethod: Dispatch<
+    SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
+  >;
+}) {
   return (
     <Sheet key="left">
       <SheetTrigger asChild>
-        <Button variant="outline">Change endpoint</Button>
+        <Button variant="outline">Select endpoint</Button>
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>
@@ -30,7 +39,10 @@ export function EndpointsSheet() {
         </SheetHeader>
         <ScrollArea className="h-[80%] w-full rounded-md border p-4 bg-slate-300 bg-opacity-35 my-4">
           <div>
-            <EndpointsAccordion />
+            <EndpointsAccordion
+              setEndpoint={setEndpoint}
+              setMethod={setMethod}
+            />
           </div>
         </ScrollArea>
         <SheetFooter>

@@ -1,43 +1,74 @@
-const endpointData = [
+import { treeStructureInterface } from "./interface";
+
+const endpointData: treeStructureInterface[] = [
   {
     name: "/events",
-    actions: ["Get all events", "Create a new event"],
+    actions: [
+      {
+        name: "Get all events",
+        method: "GET",
+      },
+      {
+        name: "Create a new event",
+        method: "POST",
+      },
+    ],
     dropdowns: [
       {
         name: "/events/:id",
-        actions: ["Delete an event", "Update an event"],
+        actions: [
+          { name: "Delete an event", method: "DELETE" },
+          { name: "Update an event", method: "PATCH" },
+        ],
       },
     ],
   },
   {
     name: "/committees",
-    actions: ["Get all committees", "Add a new committee"],
+    actions: [
+      { name: "Get all committees", method: "GET" },
+      { name: "Add a new committee", method: "POST" },
+    ],
     dropdowns: [
       {
         name: "/committees/:id",
-        actions: ["Remove a committee"],
+        actions: [{ name: "Remove a committee", method: "DELETE" }],
       },
       {
         name: "/committees/types",
-        actions: ["Get all committee types"],
+        actions: [{ name: "Get all committee types", method: "GET" }],
       },
     ],
   },
   {
     name: "/groups",
-    actions: ["Create a group", "Get all groups"],
+    actions: [
+      { name: "Create a group", method: "POST" },
+      { name: "Get all groups", method: "GET" },
+    ],
     dropdowns: [
       {
         name: "/groups/mentor",
-        actions: ["Create a new group and mentor"],
+        actions: [
+          {
+            name: "Create a new group and mentor",
+            method: "POST",
+          },
+        ],
       },
       {
         name: "/groups/:id",
-        actions: ["Delete a group", "Update a group"],
+        actions: [
+          { name: "Delete a group", method: "DELETE" },
+          { name: "Update a group", method: "PATCH" },
+        ],
         dropdowns: [
           {
             name: "/groups/:id/mentor",
-            actions: ["Update mentor of a group", "Change mentor of a group"],
+            actions: [
+              { name: "Update mentor of a group", method: "PATCH" },
+              { name: "Change mentor of a group", method: "PUT" },
+            ],
           },
         ],
       },
