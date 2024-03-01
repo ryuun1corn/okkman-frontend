@@ -28,6 +28,10 @@ const endpointData: treeStructureInterface[] = [
                 name: "Create and connect a sponsor",
                 method: "POST",
               },
+              {
+                name: "Associate sponsor and event",
+                method: "PUT",
+              },
             ],
           },
         ],
