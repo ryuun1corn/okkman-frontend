@@ -69,16 +69,16 @@ enum SPONSOR_PACKAGE {
 }
 
 model Event {
-  id          Int               @id @default(sequence())
-  created_at  DateTime          @default(now())
-  updated_at  DateTime          @updatedAt
+  id          Int       @id @default(sequence())
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
   start_date  DateTime
   end_date    DateTime
   name        String
   description String?
   location    String
   speakers    Speaker[]
-  sponsors    SponsorOnEvents[]
+  sponsors    Sponsor[]
 }
 
 model Committee {
@@ -113,20 +113,12 @@ model Mentee {
 }
 
 model Sponsor {
-  id      Int               @id @default(sequence())
+  id      Int             @id @default(sequence())
+  name    String
   package SPONSOR_PACKAGE
-  events  SponsorOnEvents[]
-}
+  events  Event[]
 
-model SponsorOnEvents {
-  event        Event   @relation(fields: [event_id], references: [id])
-  event_id     Int
-  sponsor      Sponsor @relation(fields: [sponsor_id], references: [id])
-  sponsor_id   Int
-  sponsored_by String
-
-  @@id([event_id, sponsor_id])
-  @@unique([sponsor_id, event_id])
+  @@unique([name, package])
 }
 
 model Speaker {
