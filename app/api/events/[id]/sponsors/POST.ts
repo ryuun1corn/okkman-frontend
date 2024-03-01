@@ -1,6 +1,5 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { createSponsorForEventSchema } from "./schema";
 import { handleZodErrors } from "@/app/api/utility";
 
@@ -32,16 +31,12 @@ export async function createSponsorForEvent(
   try {
     const res = await prisma.sponsor.create({
       data: {
+        name: validation.data.name,
         package: validation.data.package,
         events: {
-          create: [
+          connect: [
             {
-              sponsored_by: validation.data.name,
-              event: {
-                connect: {
-                  id: parseInt(eventId),
-                },
-              },
+              id: parseInt(eventId),
             },
           ],
         },

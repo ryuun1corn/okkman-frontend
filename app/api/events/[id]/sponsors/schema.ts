@@ -1,4 +1,3 @@
-import { SPONSOR_PACKAGE } from "@prisma/client";
 import { z } from "zod";
 
 export const createSponsorForEventSchema = z.object({
