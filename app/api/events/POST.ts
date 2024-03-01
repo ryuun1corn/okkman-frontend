@@ -26,6 +26,10 @@ export async function createEvent(request: NextRequest) {
       location: validation.data.location,
       description: validation.data.description,
     },
+    include: {
+      sponsors: true,
+      speakers: true,
+    },
   });
 
   return NextResponse.json(
