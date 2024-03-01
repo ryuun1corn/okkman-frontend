@@ -50,6 +50,18 @@ export async function updateGroup(request: NextRequest, groupId: string) {
       );
     }
 
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return NextResponse.json(
+        {
+          error: "There already exists a group with the same group number.",
+        },
+        { status: 409 }
+      );
+    }
+
     throw error;
   }
 }
