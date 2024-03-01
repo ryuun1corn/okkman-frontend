@@ -31,7 +31,7 @@ export async function changeMentor(request: NextRequest, groupId: string) {
         mentor: {
           connect: {
             id: validation.data.mentor_id,
-            bphType: "MENTOR",
+            bph_type: "MENTOR",
           },
         },
       },

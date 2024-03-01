@@ -26,9 +26,12 @@ export async function createMentorAndGroup(request: NextRequest) {
         mentor: {
           create: {
             name: validation.data.mentor_name,
-            committeeType: "BADAN_PENGURUS_HARIAN",
-            bphType: "MENTOR",
-            pengurusIntiType: null,
+            faculty: validation.data.faculty,
+            major: validation.data.major,
+            entrance_year: validation.data.entrance_year,
+            committee_type: "BADAN_PENGURUS_HARIAN",
+            bph_type: "MENTOR",
+            pengurus_inti_type: null,
           },
         },
       },
