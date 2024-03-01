@@ -61,14 +61,14 @@ model Event {
   updated_at  DateTime @updatedAt
   start_date  DateTime
   end_date    DateTime
-  name        String   @db.Char(255)
+  name        String
   description String?
-  location    String   @db.Char(255)
+  location    String
 }
 
 model Committee {
   id               Int                         @id @default(sequence())
-  name             String                      @db.Char(255)
+  name             String
   committeeType    COMMITTEE_TYPE
   pengurusIntiType PENGURUS_INTI_TYPE?
   bphType          BADAN_PENGURUS_HARIAN_TYPE?
