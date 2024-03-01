@@ -30,7 +30,7 @@ function renderNodes(
             <AccordionTrigger className="px-2">{node.name}</AccordionTrigger>
             <AccordionContent className="pl-3">
               <ul className=" divide-y-[1px] divide-slate-400">
-                <li className="bg-slate-400 bg-opacity-15 rounded-t-lg">
+                <li className="bg-white bg-opacity-50">
                   {node.dropdowns !== undefined
                     ? renderNodes(
                         node.dropdowns,
@@ -46,6 +46,7 @@ function renderNodes(
                       <SheetClose asChild>
                         <Button
                           type="submit"
+                          variant="ghost"
                           className="w-full"
                           onClick={() => {
                             setEndpoint(node.name);
