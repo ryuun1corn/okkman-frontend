@@ -31,8 +31,7 @@ export const updateEventSchema = z
       return hasProp;
     },
     {
-      message:
-        "At least 1 of (name, start_date, end_date, or location)) has to be updated.",
-      path: ["update_data"],
+      message: "At least 1 of the field has to be updated.",
+      path: ["name", "start_date", "end_date", "location", "description"],
     }
   );
