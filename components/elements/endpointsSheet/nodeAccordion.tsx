@@ -16,7 +16,8 @@ function renderNodes(
   setEndpoint: Dispatch<SetStateAction<string>>,
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
-  >
+  >,
+  setAction: Dispatch<SetStateAction<string>>
 ) {
   return (
     <Accordion
@@ -31,7 +32,12 @@ function renderNodes(
               <ul className=" divide-y-[1px] divide-slate-400">
                 <li className="bg-slate-400 bg-opacity-15 rounded-t-lg">
                   {node.dropdowns !== undefined
-                    ? renderNodes(node.dropdowns, setEndpoint, setMethod)
+                    ? renderNodes(
+                        node.dropdowns,
+                        setEndpoint,
+                        setMethod,
+                        setAction
+                      )
                     : null}
                 </li>
                 {node.actions.map((action, index) => {
@@ -44,6 +50,7 @@ function renderNodes(
                           onClick={() => {
                             setEndpoint(node.name);
                             setMethod(action.method);
+                            setAction(action.name);
                           }}
                         >
                           {action.name}
@@ -64,11 +71,13 @@ function renderNodes(
 export function EndpointsAccordion({
   setEndpoint,
   setMethod,
+  setAction,
 }: {
   setEndpoint: Dispatch<SetStateAction<string>>;
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
   >;
+  setAction: Dispatch<SetStateAction<string>>;
 }) {
-  return renderNodes(endpointData, setEndpoint, setMethod);
+  return renderNodes(endpointData, setEndpoint, setMethod, setAction);
 }

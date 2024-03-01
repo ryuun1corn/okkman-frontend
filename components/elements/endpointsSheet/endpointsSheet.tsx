@@ -18,11 +18,13 @@ import { Dispatch, SetStateAction } from "react";
 export function EndpointsSheet({
   setEndpoint,
   setMethod,
+  setAction,
 }: {
   setEndpoint: Dispatch<SetStateAction<string>>;
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
   >;
+  setAction: Dispatch<SetStateAction<string>>;
 }) {
   return (
     <Sheet key="left">
@@ -42,6 +44,7 @@ export function EndpointsSheet({
             <EndpointsAccordion
               setEndpoint={setEndpoint}
               setMethod={setMethod}
+              setAction={setAction}
             />
           </div>
         </ScrollArea>

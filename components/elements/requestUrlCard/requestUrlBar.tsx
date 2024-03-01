@@ -33,10 +33,12 @@ export function RequestURLCard({
   className,
   endpoint,
   method,
+  action,
   ...props
 }: CardProps & {
   endpoint: string;
   method: "GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null;
+  action: string;
 }) {
   const form = useForm<z.infer<typeof requestDataSchema>>({
     resolver: zodResolver(requestDataSchema),
@@ -69,7 +71,9 @@ export function RequestURLCard({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader>
-              <CardTitle>Send a request to: </CardTitle>
+              <CardTitle>
+                Send a request to: <span>{action}</span>
+              </CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
               <div className=" flex items-center space-x-4 rounded-md border p-4">
