@@ -26,6 +26,7 @@ import { z } from "zod";
 import { requestDataSchema } from "./schema";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
 
 type CardProps = React.ComponentProps<typeof Card>;
 
@@ -51,14 +52,20 @@ export function RequestURLCard({
   async function onSubmit(values: z.infer<typeof requestDataSchema>) {
     if (method === null) return;
 
+    const regex = new RegExp(":[a-zA-Z]+", "g");
+
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
-    const res = await fetch(endpoint, {
-      method: method,
-      headers: headers,
-      body: method === "GET" ? undefined : JSON.stringify(values.data),
-    });
+    const res = await fetch(
+      "/api" +
+        endpoint.replace(regex, values.param !== undefined ? values.param : ""),
+      {
+        method: method,
+        headers: headers,
+        body: method === "GET" ? undefined : JSON.stringify(values.data),
+      }
+    );
 
     setResponseData(JSON.stringify(await res.json(), null, 4));
   }
@@ -89,6 +96,29 @@ export function RequestURLCard({
                   </p>
                 </div>
               </div>
+              <div className={`${!endpoint.includes(":id") && "hidden"}`}>
+                <FormField
+                  control={form.control}
+                  name="param"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Query Params</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Insert the parameter for the request"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        This field is for the &apos;:id&apos; in the request
+                        URL.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
                 name="data"

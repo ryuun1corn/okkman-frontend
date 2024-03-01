@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const requestDataSchema = z.object({
+  param: z.string().min(1).optional(),
   data: z
     .string()
     .optional()
