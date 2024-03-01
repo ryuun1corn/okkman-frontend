@@ -70,8 +70,13 @@ export function RequestURLCard({
       }
     );
 
-    setResponseData(JSON.stringify(await res.json(), null, 4));
-    setIsLoading(false);
+    try {
+      setResponseData(JSON.stringify(await res.json(), null, 4));
+    } catch {
+      setResponseData("Please input the correct parameters.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const exampleData: string = '"name": "Yuda",\n"age": 15';
