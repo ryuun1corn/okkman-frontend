@@ -31,6 +31,19 @@ export async function removeCommittee(committeeId: string) {
       );
     }
 
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2003"
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Couldn't delete committee because he/she is of type MENTOR bound to a Group.",
+        },
+        { status: 404 }
+      );
+    }
+
     throw error;
   }
 }
