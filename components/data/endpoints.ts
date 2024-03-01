@@ -97,7 +97,7 @@ const endpointData: treeStructureInterface[] = [
         name: "/sponsors/:id",
         actions: [
           {
-            name: "Remove a sponsor",
+            name: "Delete a sponsor",
             method: "DELETE",
           },
         ],
