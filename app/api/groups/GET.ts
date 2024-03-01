@@ -5,6 +5,7 @@ export async function getGroups() {
   const res = await prisma.group.findMany({
     include: {
       mentor: true,
+      mentees: true,
     },
   });
 
