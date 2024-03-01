@@ -27,6 +27,7 @@ import { requestDataSchema } from "./schema";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { RequestOutput } from "./requestOutput";
 
 type CardProps = React.ComponentProps<typeof Card>;
 
@@ -48,6 +49,7 @@ export function RequestURLCard({
   const [responseData, setResponseData] = useState<string>(
     "No output yet, send a request?"
   );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function onSubmit(values: z.infer<typeof requestDataSchema>) {
     if (method === null) return;
@@ -57,6 +59,7 @@ export function RequestURLCard({
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
+    setIsLoading(true);
     const res = await fetch(
       "/api" +
         endpoint.replace(regex, values.param !== undefined ? values.param : ""),
@@ -68,6 +71,7 @@ export function RequestURLCard({
     );
 
     setResponseData(JSON.stringify(await res.json(), null, 4));
+    setIsLoading(false);
   }
 
   const exampleData: string = '"name": "Yuda",\n"age": 15';
@@ -145,14 +149,7 @@ export function RequestURLCard({
           </form>
         </Form>
       </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Output</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="whitespace-pre">{responseData}</p>
-        </CardContent>
-      </Card>
+      <RequestOutput responseData={responseData} isLoading={isLoading} />
     </>
   );
 }
