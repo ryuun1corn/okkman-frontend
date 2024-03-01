@@ -2,7 +2,7 @@ import { treeStructureInterface } from "./interface";
 
 const endpointData: treeStructureInterface[] = [
   {
-    name: "/events",
+    name: "/api/events",
     actions: [
       {
         name: "Get all events",
@@ -15,7 +15,7 @@ const endpointData: treeStructureInterface[] = [
     ],
     dropdowns: [
       {
-        name: "/events/:id",
+        name: "/api/events/:id",
         actions: [
           { name: "Delete an event", method: "DELETE" },
           { name: "Update an event", method: "PATCH" },
@@ -24,31 +24,31 @@ const endpointData: treeStructureInterface[] = [
     ],
   },
   {
-    name: "/committees",
+    name: "/api/committees",
     actions: [
       { name: "Get all committees", method: "GET" },
       { name: "Add a new committee", method: "POST" },
     ],
     dropdowns: [
       {
-        name: "/committees/:id",
+        name: "/api/committees/:id",
         actions: [{ name: "Remove a committee", method: "DELETE" }],
       },
       {
-        name: "/committees/types",
+        name: "/api/committees/types",
         actions: [{ name: "Get all committee types", method: "GET" }],
       },
     ],
   },
   {
-    name: "/groups",
+    name: "/api/groups",
     actions: [
       { name: "Create a group", method: "POST" },
       { name: "Get all groups", method: "GET" },
     ],
     dropdowns: [
       {
-        name: "/groups/mentor",
+        name: "/api/groups/mentor",
         actions: [
           {
             name: "Create a new group and mentor",
@@ -57,14 +57,14 @@ const endpointData: treeStructureInterface[] = [
         ],
       },
       {
-        name: "/groups/:id",
+        name: "/api/groups/:id",
         actions: [
           { name: "Delete a group", method: "DELETE" },
           { name: "Update a group", method: "PATCH" },
         ],
         dropdowns: [
           {
-            name: "/groups/:id/mentor",
+            name: "/api/groups/:id/mentor",
             actions: [
               { name: "Update mentor of a group", method: "PATCH" },
               { name: "Change mentor of a group", method: "PUT" },
