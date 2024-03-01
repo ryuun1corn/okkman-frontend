@@ -4,10 +4,7 @@ export const requestDataSchema = z.object({
   param: z
     .string()
     .optional()
-    .refine((data) => data === undefined, {
-      message: "Please input the data as a proper JSON",
-    })
-    .transform((data) => (data === undefined ? "null" : data)),
+    .transform((data) => (data === "" ? "null" : data)),
   data: z
     .string()
     .optional()
