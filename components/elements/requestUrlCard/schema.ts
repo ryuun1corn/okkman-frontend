@@ -1,7 +1,13 @@
 import { z } from "zod";
 
 export const requestDataSchema = z.object({
-  param: z.string().min(1).optional(),
+  param: z
+    .string()
+    .optional()
+    .refine((data) => data === undefined, {
+      message: "Please input the data as a proper JSON",
+    })
+    .transform((data) => (data === undefined ? "null" : data)),
   data: z
     .string()
     .optional()
