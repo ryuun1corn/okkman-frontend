@@ -82,23 +82,23 @@ model Event {
 }
 
 model Committee {
-  id               Int                         @id @default(sequence())
-  name             String
-  faculty          String
-  major            String
-  entrance_year    Int
-  committeeType    COMMITTEE_TYPE
-  pengurusIntiType PENGURUS_INTI_TYPE?
-  bphType          BADAN_PENGURUS_HARIAN_TYPE?
-  group            Group? // Only has group if bphType is MENTOR
+  id                 Int                         @id @default(sequence())
+  name               String
+  faculty            String
+  major              String
+  entrance_year      Int
+  committee_type     COMMITTEE_TYPE
+  pengurus_inti_type PENGURUS_INTI_TYPE?
+  bph_type           BADAN_PENGURUS_HARIAN_TYPE?
+  group              Group? // Only has group if bphType is MENTOR
 }
 
 model Group {
-  id       Int       @id @default(sequence())
-  number   Int       @unique
-  mentor   Committee @relation(fields: [mentorId], references: [id])
-  mentorId Int       @unique
-  mentees  Mentee[]
+  id        Int       @id @default(sequence())
+  number    Int       @unique
+  mentor    Committee @relation(fields: [mentor_id], references: [id])
+  mentor_id Int       @unique
+  mentees   Mentee[]
 }
 
 model Mentee {
