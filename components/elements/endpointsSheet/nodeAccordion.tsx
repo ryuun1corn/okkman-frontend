@@ -46,8 +46,8 @@ function renderNodes(
                       <SheetClose asChild>
                         <Button
                           type="submit"
-                          variant="ghost"
-                          className="w-full"
+                          variant="link"
+                          className="w-full justify-start"
                           onClick={() => {
                             setEndpoint(node.name);
                             setMethod(action.method);
