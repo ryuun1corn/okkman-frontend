@@ -74,6 +74,10 @@ const endpointData: treeStructureInterface[] = [
       },
     ],
   },
+  {
+    name: "/sponsors",
+    actions: [{ name: "Get all sponsors", method: "GET" }],
+  },
 ];
 
 export default endpointData;
