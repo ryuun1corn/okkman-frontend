@@ -2,6 +2,7 @@ import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { createSponsorForEventSchema } from "./schema";
 import { handleZodErrors } from "@/app/api/utility";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export async function createSponsorForEvent(
   request: NextRequest,
@@ -41,6 +42,9 @@ export async function createSponsorForEvent(
           ],
         },
       },
+      include: {
+        events: true,
+      },
     });
 
     return NextResponse.json(
@@ -52,6 +56,28 @@ export async function createSponsorForEvent(
       { status: 201 }
     );
   } catch (error) {
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return NextResponse.json(
+        {
+          error: "There is already a sponsor with the same name and package.",
+        },
+        { status: 409 }
+      );
+    }
+
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { error: "There is no event with the specified ID number." },
+        { status: 404 }
+      );
+    }
+
     throw error;
   }
 }
