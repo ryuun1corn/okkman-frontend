@@ -23,17 +23,20 @@ export async function hireNewCommittee(request: NextRequest) {
   const res = await prisma.committee.create({
     data: {
       name: validation.data.name,
-      committeeType: bphTypes.includes(
+      faculty: validation.data.faculty,
+      major: validation.data.major,
+      entrance_year: validation.data.entrance_year,
+      committee_type: bphTypes.includes(
         validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
       )
         ? "BADAN_PENGURUS_HARIAN"
         : "PENGURUS_INTI",
-      bphType: bphTypes.includes(
+      bph_type: bphTypes.includes(
         validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
       )
         ? (validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE)
         : null,
-      pengurusIntiType: bphTypes.includes(
+      pengurus_inti_type: bphTypes.includes(
         validation.data.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE
       )
         ? null

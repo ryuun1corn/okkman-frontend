@@ -26,7 +26,7 @@ export async function createGroup(request: NextRequest) {
         mentor: {
           connect: {
             id: validation.data.mentor_id,
-            bphType: "MENTOR",
+            bph_type: "MENTOR",
           },
         },
       },

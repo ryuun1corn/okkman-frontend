@@ -4,6 +4,9 @@ import { BADAN_PENGURUS_HARIAN_TYPE, PENGURUS_INTI_TYPE } from "@prisma/client";
 
 export const addCommitteeSchema = z.object({
   name: z.string().min(1).max(255),
+  faculty: z.string().min(1).max(255),
+  major: z.string().min(1).max(255),
+  entrance_year: z.number().min(1900).max(2050).int(),
   committee_subtype: z
     .string()
     .refine(
