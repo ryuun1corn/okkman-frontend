@@ -106,7 +106,13 @@ const endpointData: treeStructureInterface[] = [
   },
   {
     name: "/mentees",
-    actions: [{ name: "Get all mentees", method: "GET" }],
+    actions: [
+      { name: "Get all mentees", method: "GET" },
+      {
+        name: "Add a mentee",
+        method: "POST",
+      },
+    ],
   },
 ];
 
