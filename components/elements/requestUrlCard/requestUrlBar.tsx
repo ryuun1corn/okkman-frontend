@@ -27,6 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { RequestOutput } from "./requestOutput";
+import { responseDataInterface } from "./interface";
 
 type CardProps = React.ComponentProps<typeof Card>;
 
@@ -41,9 +42,7 @@ export function RequestURLCard({
   method: "GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null;
   action: string;
 }) {
-  const [responseData, setResponseData] = useState<string>(
-    "No output yet, send a request?"
-  );
+  const [responseData, setResponseData] = useState<responseDataInterface>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function onSubmit(values: z.infer<typeof requestDataSchema>) {
@@ -59,10 +58,20 @@ export function RequestURLCard({
       body: method === "GET" ? undefined : JSON.stringify(values.data),
     });
 
+    console.log(res.statusText);
+
     try {
-      setResponseData(JSON.stringify(await res.json(), null, 4));
+      setResponseData({
+        status: res.status,
+        statusMessage: res.statusText,
+        data: JSON.stringify(await res.json(), null, 4),
+      });
     } catch (error) {
-      setResponseData("Please input the correct parameters.");
+      setResponseData({
+        status: -1,
+        statusMessage: "Input error",
+        data: "Please input the correct parameters.",
+      });
       console.log(error);
     } finally {
       setIsLoading(false);
