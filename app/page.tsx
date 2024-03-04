@@ -1,4 +1,5 @@
 "use client";
+import { ModeToggle } from "@/components/elements/ThemesProvider/ThemeButton";
 import { DatePicker } from "@/components/elements/datePicker/DatePicker";
 import { EndpointsSheet } from "@/components/elements/endpointsSheet/endpointsSheet";
 import { RequestURLCard } from "@/components/elements/requestUrlCard/requestUrlBar";
@@ -18,6 +19,7 @@ export default function Home() {
         <div className="flex flex-row items-stretch gap-3">
           <EndpointsSheet setForm={form.setValue} />
           <DatePicker />
+          <ModeToggle />
         </div>
         <RequestURLCard form={form} />
       </div>
