@@ -19,7 +19,6 @@ function renderNodes(
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
   >,
-  setAction: Dispatch<SetStateAction<string>>,
   setEndpoint: UseFormSetValue<z.infer<typeof requestDataSchema>>
 ) {
   return (
@@ -35,12 +34,7 @@ function renderNodes(
               <ul className=" divide-y-[1px] divide-slate-400">
                 <li className="bg-white bg-opacity-50">
                   {node.dropdowns !== undefined
-                    ? renderNodes(
-                        node.dropdowns,
-                        setMethod,
-                        setAction,
-                        setEndpoint
-                      )
+                    ? renderNodes(node.dropdowns, setMethod, setEndpoint)
                     : null}
                 </li>
                 {node.actions.map((action, index) => {
@@ -53,7 +47,6 @@ function renderNodes(
                           className="w-full justify-start"
                           onClick={() => {
                             setMethod(action.method);
-                            setAction(action.name);
                             setEndpoint("endpoint", node.name);
                           }}
                         >
@@ -74,14 +67,12 @@ function renderNodes(
 
 export function EndpointsAccordion({
   setMethod,
-  setAction,
   setEndpoint,
 }: {
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
   >;
-  setAction: Dispatch<SetStateAction<string>>;
   setEndpoint: UseFormSetValue<z.infer<typeof requestDataSchema>>;
 }) {
-  return renderNodes(endpointData, setMethod, setAction, setEndpoint);
+  return renderNodes(endpointData, setMethod, setEndpoint);
 }

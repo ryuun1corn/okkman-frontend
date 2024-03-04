@@ -20,13 +20,11 @@ import { z } from "zod";
 
 export function EndpointsSheet({
   setMethod,
-  setAction,
   setEndpoint,
 }: {
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
   >;
-  setAction: Dispatch<SetStateAction<string>>;
   setEndpoint: UseFormSetValue<z.infer<typeof requestDataSchema>>;
 }) {
   return (
@@ -46,7 +44,6 @@ export function EndpointsSheet({
           <div>
             <EndpointsAccordion
               setMethod={setMethod}
-              setAction={setAction}
               setEndpoint={setEndpoint}
             />
           </div>

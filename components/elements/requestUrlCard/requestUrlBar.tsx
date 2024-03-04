@@ -35,12 +35,10 @@ export function RequestURLCard({
   className,
   form,
   method,
-  action,
   ...props
 }: CardProps & {
   form: UseFormReturn<z.infer<typeof requestDataSchema>>;
   method: "GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null;
-  action: string;
 }) {
   const [responseData, setResponseData] = useState<responseDataInterface>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -86,9 +84,7 @@ export function RequestURLCard({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader>
-              <CardTitle>
-                Send a request to: <span>{action}</span>
-              </CardTitle>
+              <CardTitle>Send a request to:</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
               <div className=" flex flex-row items-center justify-between space-x-4 rounded-md border p-4">

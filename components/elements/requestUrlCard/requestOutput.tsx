@@ -27,7 +27,11 @@ export function RequestOutput({
       </CardHeader>
       <CardContent>
         <p className="whitespace-pre">
-          {isLoading ? "Please wait..." : responseData?.data}
+          {isLoading
+            ? "Please wait..."
+            : responseData === undefined
+            ? "No output yet? Try sending a request!"
+            : responseData.data}
         </p>
       </CardContent>
     </Card>
