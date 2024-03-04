@@ -9,17 +9,13 @@ import { Button } from "@/components/ui/button";
 import endpointData from "@/components/data/endpoints";
 
 import { treeStructureInterface } from "../../data/interface";
-import { Dispatch, SetStateAction } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { z } from "zod";
 import { requestDataSchema } from "../requestUrlCard/schema";
 
 function renderNodes(
   nodeObjects: treeStructureInterface[],
-  setMethod: Dispatch<
-    SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
-  >,
-  setEndpoint: UseFormSetValue<z.infer<typeof requestDataSchema>>
+  setForm: UseFormSetValue<z.infer<typeof requestDataSchema>>
 ) {
   return (
     <Accordion
@@ -34,7 +30,7 @@ function renderNodes(
               <ul className=" divide-y-[1px] divide-slate-400">
                 <li className="bg-white bg-opacity-50">
                   {node.dropdowns !== undefined
-                    ? renderNodes(node.dropdowns, setMethod, setEndpoint)
+                    ? renderNodes(node.dropdowns, setForm)
                     : null}
                 </li>
                 {node.actions.map((action, index) => {
@@ -46,8 +42,8 @@ function renderNodes(
                           variant="link"
                           className="w-full justify-start"
                           onClick={() => {
-                            setMethod(action.method);
-                            setEndpoint("endpoint", node.name);
+                            setForm("endpoint", node.name);
+                            setForm("method", action.method);
                           }}
                         >
                           {action.name}
@@ -66,13 +62,9 @@ function renderNodes(
 }
 
 export function EndpointsAccordion({
-  setMethod,
   setEndpoint,
 }: {
-  setMethod: Dispatch<
-    SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
-  >;
   setEndpoint: UseFormSetValue<z.infer<typeof requestDataSchema>>;
 }) {
-  return renderNodes(endpointData, setMethod, setEndpoint);
+  return renderNodes(endpointData, setEndpoint);
 }

@@ -1,5 +1,6 @@
 export interface responseDataInterface {
-  status: number;
+  status: number | null;
   statusMessage: string;
+  time: number;
   data: string;
 }

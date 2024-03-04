@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const requestDataSchema = z.object({
   endpoint: z.string(),
+  method: z.string(),
   data: z
     .string()
     .optional()

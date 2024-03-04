@@ -23,6 +23,8 @@ export function RequestOutput({
           <span className="font-bold">
             {responseData?.status} - {responseData?.statusMessage}{" "}
           </span>
+          <br />
+          Time: <span className="font-bold">{responseData?.time} ms</span>
         </CardDescription>
       </CardHeader>
       <CardContent>

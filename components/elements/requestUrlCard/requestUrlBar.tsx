@@ -19,8 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
-import { UseFormReturn, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { requestDataSchema } from "./schema";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,46 +27,58 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { RequestOutput } from "./requestOutput";
 import { responseDataInterface } from "./interface";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type CardProps = React.ComponentProps<typeof Card>;
 
 export function RequestURLCard({
   className,
   form,
-  method,
   ...props
 }: CardProps & {
   form: UseFormReturn<z.infer<typeof requestDataSchema>>;
-  method: "GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null;
 }) {
   const [responseData, setResponseData] = useState<responseDataInterface>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function onSubmit(values: z.infer<typeof requestDataSchema>) {
-    if (method === null) return;
-
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
     setIsLoading(true);
+    const start = performance.now();
+
     const res = await fetch("/api" + values.endpoint, {
-      method: method,
+      method: values.method,
       headers: headers,
-      body: method === "GET" ? undefined : JSON.stringify(values.data),
+      body: values.method === "GET" ? undefined : JSON.stringify(values.data),
     });
 
-    console.log(res.statusText);
+    const resText = await res.text();
+
+    const end = performance.now();
 
     try {
       setResponseData({
         status: res.status,
         statusMessage: res.statusText,
-        data: JSON.stringify(await res.json(), null, 4),
+        time: end - start,
+        data:
+          resText.length === 0
+            ? ""
+            : JSON.stringify(JSON.parse(resText), null, 4),
       });
     } catch (error) {
       setResponseData({
-        status: -1,
+        status: null,
         statusMessage: "Input error",
+        time: 0,
         data: "Please input the correct parameters.",
       });
       console.log(error);
@@ -89,9 +100,29 @@ export function RequestURLCard({
             <CardContent className="grid gap-4">
               <div className=" flex flex-row items-center justify-between space-x-4 rounded-md border p-4">
                 <div>
-                  <p className="text-sm font-medium leading-none">
-                    {method === null ? "None" : method}
-                  </p>
+                  <FormField
+                    control={form.control}
+                    name="method"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Select {...field} onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a method" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="GET">GET</SelectItem>
+                            <SelectItem value="POST">POST</SelectItem>
+                            <SelectItem value="PUT">PUT</SelectItem>
+                            <SelectItem value="PATCH">PATCH</SelectItem>
+                            <SelectItem value="DELETE">DELETE</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
                 <div className="w-[90%]">
                   <FormField
@@ -101,7 +132,7 @@ export function RequestURLCard({
                       <FormItem>
                         <FormControl>
                           <Input
-                            placeholder="Insert the parameter for the request"
+                            placeholder="Enter the endpoint for the request"
                             {...field}
                           />
                         </FormControl>
