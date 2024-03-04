@@ -1,10 +1,7 @@
 import { z } from "zod";
 
 export const requestDataSchema = z.object({
-  param: z
-    .string()
-    .optional()
-    .transform((data) => (data === "" ? "null" : data)),
+  endpoint: z.string(),
   data: z
     .string()
     .optional()

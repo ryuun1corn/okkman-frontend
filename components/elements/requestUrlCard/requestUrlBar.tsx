@@ -16,11 +16,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Separator } from "@radix-ui/react-separator";
 import { cn } from "@/lib/utils";
 
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
-import { useForm } from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { requestDataSchema } from "./schema";
@@ -33,19 +32,15 @@ type CardProps = React.ComponentProps<typeof Card>;
 
 export function RequestURLCard({
   className,
-  endpoint,
+  form,
   method,
   action,
   ...props
 }: CardProps & {
-  endpoint: string;
+  form: UseFormReturn<z.infer<typeof requestDataSchema>>;
   method: "GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null;
   action: string;
 }) {
-  const form = useForm<z.infer<typeof requestDataSchema>>({
-    resolver: zodResolver(requestDataSchema),
-  });
-
   const [responseData, setResponseData] = useState<string>(
     "No output yet, send a request?"
   );
@@ -54,26 +49,21 @@ export function RequestURLCard({
   async function onSubmit(values: z.infer<typeof requestDataSchema>) {
     if (method === null) return;
 
-    const regex = new RegExp(":[a-zA-Z]+", "g");
-
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
     setIsLoading(true);
-    const res = await fetch(
-      "/api" +
-        endpoint.replace(regex, values.param !== undefined ? values.param : ""),
-      {
-        method: method,
-        headers: headers,
-        body: method === "GET" ? undefined : JSON.stringify(values.data),
-      }
-    );
+    const res = await fetch("/api" + values.endpoint, {
+      method: method,
+      headers: headers,
+      body: method === "GET" ? undefined : JSON.stringify(values.data),
+    });
 
     try {
       setResponseData(JSON.stringify(await res.json(), null, 4));
-    } catch {
+    } catch (error) {
       setResponseData("Please input the correct parameters.");
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -83,7 +73,7 @@ export function RequestURLCard({
 
   return (
     <>
-      <Card className={cn("w-full md:w-[80%]", className)} {...props}>
+      <Card className={cn("w-full", className)} {...props}>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader>
@@ -92,40 +82,29 @@ export function RequestURLCard({
               </CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
-              <div className=" flex items-center space-x-4 rounded-md border p-4">
+              <div className=" flex flex-row items-center justify-between space-x-4 rounded-md border p-4">
                 <div>
                   <p className="text-sm font-medium leading-none">
                     {method === null ? "None" : method}
                   </p>
                 </div>
-                <Separator />
-                <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">
-                    {!endpoint ? "Please select an endpoint" : endpoint}
-                  </p>
+                <div className="w-[90%]">
+                  <FormField
+                    control={form.control}
+                    name="endpoint"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Insert the parameter for the request"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-              </div>
-              <div className={`${!endpoint.includes(":id") && "hidden"}`}>
-                <FormField
-                  control={form.control}
-                  name="param"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Query Params</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Insert the parameter for the request"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        This field is for the &apos;:id&apos; in the request
-                        URL.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
               <FormField

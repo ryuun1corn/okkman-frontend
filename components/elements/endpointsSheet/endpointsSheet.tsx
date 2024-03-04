@@ -14,22 +14,25 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { EndpointsAccordion } from "./nodeAccordion";
 import { Dispatch, SetStateAction } from "react";
+import { UseFormSetValue } from "react-hook-form";
+import { requestDataSchema } from "../requestUrlCard/schema";
+import { z } from "zod";
 
 export function EndpointsSheet({
-  setEndpoint,
   setMethod,
   setAction,
+  setEndpoint,
 }: {
-  setEndpoint: Dispatch<SetStateAction<string>>;
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
   >;
   setAction: Dispatch<SetStateAction<string>>;
+  setEndpoint: UseFormSetValue<z.infer<typeof requestDataSchema>>;
 }) {
   return (
     <Sheet key="left">
       <SheetTrigger asChild>
-        <Button variant="outline">Select endpoint</Button>
+        <Button>Select endpoint</Button>
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>
@@ -42,9 +45,9 @@ export function EndpointsSheet({
         <ScrollArea className="h-[80%] w-full rounded-md border p-4 bg-slate-300 bg-opacity-35 my-4">
           <div>
             <EndpointsAccordion
-              setEndpoint={setEndpoint}
               setMethod={setMethod}
               setAction={setAction}
+              setEndpoint={setEndpoint}
             />
           </div>
         </ScrollArea>

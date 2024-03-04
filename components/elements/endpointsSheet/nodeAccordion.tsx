@@ -10,14 +10,17 @@ import endpointData from "@/components/data/endpoints";
 
 import { treeStructureInterface } from "../../data/interface";
 import { Dispatch, SetStateAction } from "react";
+import { UseFormSetValue } from "react-hook-form";
+import { z } from "zod";
+import { requestDataSchema } from "../requestUrlCard/schema";
 
 function renderNodes(
   nodeObjects: treeStructureInterface[],
-  setEndpoint: Dispatch<SetStateAction<string>>,
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
   >,
-  setAction: Dispatch<SetStateAction<string>>
+  setAction: Dispatch<SetStateAction<string>>,
+  setEndpoint: UseFormSetValue<z.infer<typeof requestDataSchema>>
 ) {
   return (
     <Accordion
@@ -34,9 +37,9 @@ function renderNodes(
                   {node.dropdowns !== undefined
                     ? renderNodes(
                         node.dropdowns,
-                        setEndpoint,
                         setMethod,
-                        setAction
+                        setAction,
+                        setEndpoint
                       )
                     : null}
                 </li>
@@ -49,9 +52,9 @@ function renderNodes(
                           variant="link"
                           className="w-full justify-start"
                           onClick={() => {
-                            setEndpoint(node.name);
                             setMethod(action.method);
                             setAction(action.name);
+                            setEndpoint("endpoint", node.name);
                           }}
                         >
                           {action.name}
@@ -70,15 +73,15 @@ function renderNodes(
 }
 
 export function EndpointsAccordion({
-  setEndpoint,
   setMethod,
   setAction,
+  setEndpoint,
 }: {
-  setEndpoint: Dispatch<SetStateAction<string>>;
   setMethod: Dispatch<
     SetStateAction<"GET" | "POST" | "DELETE" | "PATCH" | "PUT" | null>
   >;
   setAction: Dispatch<SetStateAction<string>>;
+  setEndpoint: UseFormSetValue<z.infer<typeof requestDataSchema>>;
 }) {
-  return renderNodes(endpointData, setEndpoint, setMethod, setAction);
+  return renderNodes(endpointData, setMethod, setAction, setEndpoint);
 }
