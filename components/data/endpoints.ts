@@ -134,7 +134,18 @@ const endpointData: treeStructureInterface[] = [
         method: "POST",
       },
     ],
-    dropdowns: [],
+    dropdowns: [
+      {
+        name: "/mentees/:id",
+        actions: [{ name: "Remove a mentee", method: "DELETE" }],
+        dropdowns: [
+          {
+            name: "/mentees/:id/groups",
+            actions: [{ name: "Move mentee to another group", method: "PUT" }],
+          },
+        ],
+      },
+    ],
   },
 ];
 

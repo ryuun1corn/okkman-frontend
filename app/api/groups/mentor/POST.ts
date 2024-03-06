@@ -22,7 +22,7 @@ export async function createMentorAndGroup(request: NextRequest) {
   try {
     const res = await prisma.group.create({
       data: {
-        number: validation.data.number,
+        number: validation.data.group_number,
         mentor: {
           create: {
             name: validation.data.mentor_name,
