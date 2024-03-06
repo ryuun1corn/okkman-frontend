@@ -6,5 +6,5 @@ export const addMenteeSchema = z.object({
   major: z.string().min(1).max(255),
   entrance_year: z.number().min(1900).max(2050).int(),
   entrance_method: z.enum(["SNBP", "SNBT", "MANDIRI", "BEASISWA"]),
-  group_id: z.number().positive().int(),
+  group_number: z.number().positive().int().lte(999),
 });

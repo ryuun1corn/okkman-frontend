@@ -77,7 +77,10 @@ const endpointData: treeStructureInterface[] = [
   },
   {
     name: "/sponsors",
-    actions: [{ name: "Get all sponsors", method: "GET" }],
+    actions: [
+      { name: "Get all sponsors", method: "GET" },
+      { name: "Add a sponsor", method: "POST" },
+    ],
     dropdowns: [
       {
         name: "/sponsors/:id",

@@ -29,7 +29,7 @@ export async function addMentee(request: NextRequest) {
         entrance_method: validation.data.entrance_method,
         group: {
           connect: {
-            id: validation.data.group_id,
+            number: validation.data.group_number,
           },
         },
       },
