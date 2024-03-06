@@ -142,6 +142,10 @@ export function RequestURLCard({
                   />
                 </div>
               </div>
+              <p className="text-muted-foreground text-sm">
+                For URLs that have an &apos;:id&apos; in them, replace them with
+                valid IDs
+              </p>
 
               <FormField
                 control={form.control}
@@ -154,7 +158,9 @@ export function RequestURLCard({
                     </FormControl>
                     <FormDescription>
                       Enter the data needed for the request. <br />
-                      Leave the field empty if no data is needed.
+                      Leave the field empty if no data is needed. <br />
+                      To know what data is required, try sending an empty body
+                      request.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
