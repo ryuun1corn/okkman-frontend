@@ -110,7 +110,12 @@ const endpointData: treeStructureInterface[] = [
       { name: "Get all speakers", method: "GET" },
       { name: "Add a speaker", method: "POST" },
     ],
-    dropdowns: [],
+    dropdowns: [
+      {
+        name: "/speakers/:id",
+        actions: [{ name: "Remove a speaker", method: "DELETE" }],
+      },
+    ],
   },
   {
     name: "/mentees",
@@ -121,6 +126,7 @@ const endpointData: treeStructureInterface[] = [
         method: "POST",
       },
     ],
+    dropdowns: [],
   },
 ];
 
