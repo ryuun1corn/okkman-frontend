@@ -20,21 +20,7 @@ const endpointData: treeStructureInterface[] = [
           { name: "Delete an event", method: "DELETE" },
           { name: "Update an event", method: "PATCH" },
         ],
-        dropdowns: [
-          {
-            name: "/events/:id/sponsors",
-            actions: [
-              {
-                name: "Create and connect a sponsor",
-                method: "POST",
-              },
-              {
-                name: "Associate sponsor and event",
-                method: "PUT",
-              },
-            ],
-          },
-        ],
+        dropdowns: [],
       },
     ],
   },
@@ -99,6 +85,21 @@ const endpointData: treeStructureInterface[] = [
           {
             name: "Delete a sponsor",
             method: "DELETE",
+          },
+        ],
+        dropdowns: [
+          {
+            name: "/sponsors/:id/events",
+            actions: [
+              {
+                name: "Create and connect a sponsor",
+                method: "POST",
+              },
+              {
+                name: "Associate sponsor and event",
+                method: "PUT",
+              },
+            ],
           },
         ],
       },

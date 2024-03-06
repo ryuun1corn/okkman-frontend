@@ -6,7 +6,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export async function associateSponsorAndEvent(
   request: NextRequest,
-  eventId: string
+  sponsorId: string
 ) {
   const body = await request.json();
   const validation = associateSponsorAndEventSchema.safeParse(body);
@@ -22,7 +22,7 @@ export async function associateSponsorAndEvent(
     );
   }
 
-  if (isNaN(Number(eventId))) {
+  if (isNaN(Number(sponsorId))) {
     return NextResponse.json(
       { error: "Make sure you have inputted the correct ID." },
       { status: 400 }
@@ -32,10 +32,10 @@ export async function associateSponsorAndEvent(
   try {
     const check = await prisma.event.findUnique({
       where: {
-        id: parseInt(eventId),
+        id: validation.data.event_id,
         sponsors: {
           some: {
-            id: validation.data.sponsor_id,
+            id: parseInt(sponsorId),
           },
         },
       },
@@ -57,19 +57,19 @@ export async function associateSponsorAndEvent(
 
     const res = await prisma.event.update({
       where: {
-        id: parseInt(eventId),
+        id: validation.data.event_id,
       },
       data: {
         sponsors:
           validation.data.action === "REMOVE"
             ? {
                 disconnect: {
-                  id: validation.data.sponsor_id,
+                  id: parseInt(sponsorId),
                 },
               }
             : {
                 connect: {
-                  id: validation.data.sponsor_id,
+                  id: parseInt(sponsorId),
                 },
               },
       },
@@ -89,6 +89,16 @@ export async function associateSponsorAndEvent(
     if (
       error instanceof PrismaClientKnownRequestError &&
       error.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { error: "There is no sponsor with the specified ID number." },
+        { status: 404 }
+      );
+    }
+
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2016"
     ) {
       return NextResponse.json(
         { error: "There is no event with the specified ID number." },
