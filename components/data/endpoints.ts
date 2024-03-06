@@ -105,6 +105,14 @@ const endpointData: treeStructureInterface[] = [
     ],
   },
   {
+    name: "/speakers",
+    actions: [
+      { name: "Get all speakers", method: "GET" },
+      { name: "Add a speaker", method: "POST" },
+    ],
+    dropdowns: [],
+  },
+  {
     name: "/mentees",
     actions: [
       { name: "Get all mentees", method: "GET" },
