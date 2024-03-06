@@ -6,6 +6,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { responseDataInterface } from "./interface";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export function RequestOutput({
   responseData,
@@ -28,12 +29,18 @@ export function RequestOutput({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="whitespace-pre">
-          {isLoading
-            ? "Please wait..."
-            : responseData === undefined
-            ? "No output yet? Try sending a request!"
-            : responseData.data}
+        <p className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold whitespace-pre">
+          {isLoading ? (
+            <div className="w-full flex flex-col items-center justify-center gap-3 m-5">
+              <ReloadIcon className="mr-2 h-10 w-10 animate-spin" />
+              <br />
+              Please wait...
+            </div>
+          ) : responseData === undefined ? (
+            "No output yet? Try sending a request!"
+          ) : (
+            responseData.data
+          )}
         </p>
       </CardContent>
     </Card>

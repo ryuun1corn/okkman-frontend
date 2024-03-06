@@ -28,7 +28,7 @@ function renderNodes(
             <AccordionTrigger className="px-2">{node.name}</AccordionTrigger>
             <AccordionContent className="pl-3">
               <ul className=" divide-y-[1px] divide-slate-400">
-                <li className="bg-white bg-opacity-50">
+                <li className="bg-slate-300 bg-opacity-15">
                   {node.dropdowns !== undefined
                     ? renderNodes(node.dropdowns, setForm)
                     : null}
@@ -40,7 +40,7 @@ function renderNodes(
                         <Button
                           type="submit"
                           variant="link"
-                          className="w-full justify-start"
+                          className="w-full justify-start text-foreground"
                           onClick={() => {
                             setForm("endpoint", node.name);
                             setForm("method", action.method);

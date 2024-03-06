@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -25,14 +24,13 @@ export function EndpointsSheet({
   return (
     <Sheet key="left">
       <SheetTrigger asChild>
-        <Button>Select endpoint</Button>
+        <Button>Select Endpoint</Button>
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>
           <SheetTitle>OKK-Man Endpoints</SheetTitle>
           <SheetDescription>
-            Change endpoints for testing different parts of the API. Click
-            &apos;Change&apos; when you&apos;re done.
+            Here are all the endpoints that are available for the API.
           </SheetDescription>
         </SheetHeader>
         <ScrollArea className="h-[80%] w-full rounded-md border p-4 bg-slate-300 bg-opacity-35 my-4">
@@ -40,10 +38,8 @@ export function EndpointsSheet({
             <EndpointsAccordion setEndpoint={setEndpoint} />
           </div>
         </ScrollArea>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Close</Button>
-          </SheetClose>
+        <SheetFooter className="text-muted-foreground inline-block text-center w-full">
+          Made with ❤️ by Yuda
         </SheetFooter>
       </SheetContent>
     </Sheet>
