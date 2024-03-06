@@ -3,7 +3,7 @@ import { BADAN_PENGURUS_HARIAN_TYPE, PENGURUS_INTI_TYPE } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { handleZodErrors } from "../utility";
 import { addCommitteeSchema } from "./schema";
-import { bphTypes } from "./types/route";
+import { bphTypes } from "./types/data";
 
 export async function hireNewCommittee(request: NextRequest) {
   const body = await request.json();

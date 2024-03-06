@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { pengurusIntiTypes, bphTypes } from "./types/route";
+import { pengurusIntiTypes, bphTypes } from "./types/data";
 import { BADAN_PENGURUS_HARIAN_TYPE, PENGURUS_INTI_TYPE } from "@prisma/client";
 
 export const addCommitteeSchema = z.object({
