@@ -92,10 +92,6 @@ const endpointData: treeStructureInterface[] = [
             name: "/sponsors/:id/events",
             actions: [
               {
-                name: "Create and connect a sponsor",
-                method: "POST",
-              },
-              {
                 name: "Associate sponsor and event",
                 method: "PUT",
               },
@@ -115,6 +111,17 @@ const endpointData: treeStructureInterface[] = [
       {
         name: "/speakers/:id",
         actions: [{ name: "Remove a speaker", method: "DELETE" }],
+        dropdowns: [
+          {
+            name: "/speakers/:id/events",
+            actions: [
+              {
+                name: "Associate speaker and event",
+                method: "PUT",
+              },
+            ],
+          },
+        ],
       },
     ],
   },
