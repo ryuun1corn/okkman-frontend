@@ -54,7 +54,7 @@ export function RequestURLCard({
     setIsLoading(true);
     const start = performance.now();
 
-    const res = await fetch("/api" + values.endpoint, {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + values.endpoint, {
       method: values.method,
       headers: headers,
       body: values.method === "GET" ? undefined : JSON.stringify(values.data),
