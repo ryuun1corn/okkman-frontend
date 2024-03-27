@@ -29,7 +29,7 @@ export function RequestOutput({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs md:text-sm font-semibold whitespace-pre">
+        <p className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs md:text-sm font-semibold whitespace-pre text-wrap break-all">
           {isLoading ? (
             <div className="w-full flex flex-col items-center justify-center gap-3 m-5">
               <ReloadIcon className="mr-2 h-10 w-10 animate-spin" />
