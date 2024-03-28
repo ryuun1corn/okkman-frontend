@@ -17,10 +17,26 @@ const endpointData: treeStructureInterface[] = [
       {
         name: "/events/:id",
         actions: [
+          { name: "Get an event", method: "GET" },
           { name: "Delete an event", method: "DELETE" },
           { name: "Update an event", method: "PATCH" },
         ],
-        dropdowns: [],
+        dropdowns: [
+          {
+            name: "/events/:id/sponsors/:sponsorId",
+            actions: [
+              { name: "Connect sponsor to event", method: "PUT" },
+              { name: "Disconnect sponsor from event", method: "DELETE" },
+            ],
+          },
+          {
+            name: "/events/:id/speakers/:speakerId",
+            actions: [
+              { name: "Connect speaker to event", method: "PUT" },
+              { name: "Disconnect speaker from event", method: "DELETE" },
+            ],
+          },
+        ],
       },
     ],
   },
@@ -33,11 +49,15 @@ const endpointData: treeStructureInterface[] = [
     dropdowns: [
       {
         name: "/committees/:id",
-        actions: [{ name: "Remove a committee", method: "DELETE" }],
+        actions: [
+          { name: "Get a committee", method: "GET" },
+          { name: "Update a committee", method: "PATCH" },
+          { name: "Remove a committee", method: "DELETE" },
+        ],
       },
       {
-        name: "/committees/types",
-        actions: [{ name: "Get all committee types", method: "GET" }],
+        name: "/committees/mentors",
+        actions: [{ name: "Get all mentors", method: "GET" }],
       },
     ],
   },
@@ -49,27 +69,16 @@ const endpointData: treeStructureInterface[] = [
     ],
     dropdowns: [
       {
-        name: "/groups/mentor",
-        actions: [
-          {
-            name: "Create a new group and mentor",
-            method: "POST",
-          },
-        ],
-      },
-      {
         name: "/groups/:id",
         actions: [
+          { name: "Get a group", method: "GET" },
           { name: "Delete a group", method: "DELETE" },
           { name: "Update a group", method: "PATCH" },
         ],
         dropdowns: [
           {
-            name: "/groups/:id/mentor",
-            actions: [
-              { name: "Update mentor of a group", method: "PATCH" },
-              { name: "Change mentor of a group", method: "PUT" },
-            ],
+            name: "/groups/:id/mentors/:mentorId",
+            actions: [{ name: "Change mentor of a group", method: "PUT" }],
           },
         ],
       },
@@ -86,19 +95,16 @@ const endpointData: treeStructureInterface[] = [
         name: "/sponsors/:id",
         actions: [
           {
+            name: "Get a sponsor",
+            method: "GET",
+          },
+          {
+            name: "Update a sponsor",
+            method: "PATCH",
+          },
+          {
             name: "Delete a sponsor",
             method: "DELETE",
-          },
-        ],
-        dropdowns: [
-          {
-            name: "/sponsors/:id/events",
-            actions: [
-              {
-                name: "Associate sponsor and event",
-                method: "PUT",
-              },
-            ],
           },
         ],
       },
@@ -113,17 +119,10 @@ const endpointData: treeStructureInterface[] = [
     dropdowns: [
       {
         name: "/speakers/:id",
-        actions: [{ name: "Remove a speaker", method: "DELETE" }],
-        dropdowns: [
-          {
-            name: "/speakers/:id/events",
-            actions: [
-              {
-                name: "Associate speaker and event",
-                method: "PUT",
-              },
-            ],
-          },
+        actions: [
+          { name: "Get a speaker", method: "GET" },
+          { name: "Update a speaker", method: "PATCH" },
+          { name: "Remove a speaker", method: "DELETE" },
         ],
       },
     ],
@@ -140,11 +139,15 @@ const endpointData: treeStructureInterface[] = [
     dropdowns: [
       {
         name: "/mentees/:id",
-        actions: [{ name: "Remove a mentee", method: "DELETE" }],
+        actions: [
+          { name: "Get a mentee", method: "GET" },
+          { name: "Update a mentee", method: "PATCH" },
+          { name: "Remove a mentee", method: "DELETE" },
+        ],
         dropdowns: [
           {
-            name: "/mentees/:id/groups",
-            actions: [{ name: "Move mentee to another group", method: "PUT" }],
+            name: "/mentees/:id/groups/:groupNumber",
+            actions: [{ name: "Change group of mentee", method: "PUT" }],
           },
         ],
       },
